@@ -1,0 +1,17 @@
+LICENSE.md
+README.md
+setup.py
+lib/__init__.py
+lib/cli.py
+lib/debug.py
+lib/helpers.py
+lib/models/__init__.py
+lib/models/book.py
+lib/models/init_db.py
+lib/models/model_1.py
+lib/models/reading_progress.py
+lib/models/user.py
+reading_tracker_cli.egg-info/PKG-INFO
+reading_tracker_cli.egg-info/SOURCES.txt
+reading_tracker_cli.egg-info/dependency_links.txt
+reading_tracker_cli.egg-info/top_level.txt

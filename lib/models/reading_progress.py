@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, ForeignKey, String, DateTime
 from sqlalchemy.orm import relationship
-from . import Base
+from lib.models import Base
 from datetime import datetime
 
 class ReadingProgress(Base):

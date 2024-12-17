@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
-from . import Base
+from lib.models import Base
 
 class Book(Base):
     __tablename__ = 'books'
