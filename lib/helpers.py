@@ -31,6 +31,15 @@ def log_progress():
        session.commit()
        print("Progress logged successfully!")
 
+def view_books_by_status():
+       status = input("Enter status to filter (To Read/Reading/Finished): ")
+       progresses = session.query(ReadingProgress).filter_by(reading_status=status).all()
+       if progresses:
+           for p in progresses:
+               print(f"Book ID: {p.book_id}, Pages Read: {p.pages_read}, Updated At: {p.updated_at}")
+       else:
+           print("No books found for this status.")
+
 
 def exit_program():
     print("Goodbye!")
