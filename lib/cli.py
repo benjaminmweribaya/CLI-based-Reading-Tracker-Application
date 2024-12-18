@@ -2,7 +2,7 @@ from lib.models import session
 from lib.models.user import User
 from lib.models.book import Book
 from lib.models.reading_progress import ReadingProgress
-from lib.helpers import add_user, add_book, log_progress, view_books_by_status, exit_program
+from lib.helpers import add_user, add_book, log_progress, view_books_by_status, calculate_percentage, search_books, sort_books, exit_program
 
 def main():
     while True:
@@ -18,6 +18,12 @@ def main():
             log_progress()
         elif choice == "4":
             view_books_by_status()
+        elif choice == "5":
+            calculate_percentage()
+        elif choice == "6":
+            search_books()
+        elif choice == "7":
+            sort_books()
         else:
             print("Invalid choice")
 
