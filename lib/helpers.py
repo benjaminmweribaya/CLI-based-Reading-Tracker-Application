@@ -91,6 +91,17 @@ def calculate_percentage():
     except ValueError:
         print("Error: User ID must be a number.")
 
+def search_books():
+    """Search for books by title or author."""
+    search_term = input("Enter title or author to search for: ").lower()
+    books = session.query(Book).all()
+    results = [book for book in books if search_term in book.title.lower() or search_term in book.author.lower()]
+    if results:
+        for book in results:
+            print(f"{book.title} by {book.author} | Genre: {book.genre}")
+    else:
+        print("No matching books found.")
+
 
 def exit_program():
     print("Goodbye!")
