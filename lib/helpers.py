@@ -11,6 +11,17 @@ def add_user():
     session.commit()
     print("User added successfully!")
 
+def add_book():
+       title = input("Enter book title: ")
+       author = input("Enter book author: ")
+       genre = input("Enter book genre: ")
+       total_pages = int(input("Enter total pages: "))
+       book = Book(title=title, author=author, genre=genre, total_pages=total_pages)
+       session.add(book)
+       session.commit()
+       print("Book added successfully!")
+
+
 
 def exit_program():
     print("Goodbye!")
