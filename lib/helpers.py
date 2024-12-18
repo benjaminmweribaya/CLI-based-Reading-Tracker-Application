@@ -75,6 +75,22 @@ def view_books_by_status():
        else:
            print("No books found for this status.")
 
+def calculate_percentage():
+    """Calculate percentage completion for a user's books."""
+    user_id = input("Enter your user ID: ")
+    try:
+        user_id = int(user_id)
+        progresses = session.query(ReadingProgress).filter_by(user_id=user_id).all()
+        if not progresses:
+            print("No reading progress found for this user.")
+            return
+        for progress in progresses:
+            book = session.query(Book).filter_by(id=progress.book_id).first()
+            percentage = (progress.pages_read / book.total_pages) * 100
+            print(f"{book.title} by {book.author} | {percentage:.2f}% Completed")
+    except ValueError:
+        print("Error: User ID must be a number.")
+
 
 def exit_program():
     print("Goodbye!")
