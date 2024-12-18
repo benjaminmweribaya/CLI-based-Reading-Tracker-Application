@@ -29,14 +29,41 @@ def add_book():
         print("Error: Total pages must be a number!")
 
 def log_progress():
+    try:
        user_id = int(input("Enter your user ID: "))
        book_id = int(input("Enter the book ID: "))
        pages_read = int(input("Enter pages read: "))
        reading_status = input("Enter status (To Read/Reading/Finished): ")
-       progress = ReadingProgress(user_id=user_id, book_id=book_id, pages_read=pages_read, reading_status=reading_status)
-       session.add(progress)
+
+       # Validate user and book exist
+       user = session.query(User).filter_by(id=user_id).first()
+       book = session.query(Book).filter_by(id=book_id).first()
+
+       if not user:
+           print("Error: User does not exist!")
+           return
+       if not book:
+           print("Error: Book does not exist!")
+           return
+       if pages_read > book.total_pages:
+           print("Error: Pages read cannot exceed total pages!")
+           return
+
+        # Log or update progress
+       progress = session.query(ReadingProgress).filter_by(user_id=user_id, book_id=book_id).first()
+       if progress:
+           progress.pages_read = pages_read
+           progress.reading_status = reading_status
+           print("Progress updated successfully!")
+       else:
+           progress = ReadingProgress(user_id=user_id, book_id=book_id, pages_read=pages_read, reading_status=reading_status)
+           session.add(progress)
+           print("Progress logged successfully!")
+
        session.commit()
-       print("Progress logged successfully!")
+       
+    except ValueError:
+        print("Error: IDs and pages must be numbers!")
 
 def view_books_by_status():
        status = input("Enter status to filter (To Read/Reading/Finished): ")
