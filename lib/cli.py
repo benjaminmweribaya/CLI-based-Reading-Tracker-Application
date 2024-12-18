@@ -27,6 +27,9 @@ def menu():
     print("2. Add a new book")
     print("3. Log reading progress")
     print("4. View books by reading status")
+    print("5. Calculate percentage completion for books")
+    print("6. Search for books")
+    print("7. Sort books")
     print("0. Exit the program")
 
 if __name__ == "__main__":
