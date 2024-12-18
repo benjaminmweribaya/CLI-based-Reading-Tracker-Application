@@ -15,14 +15,18 @@ def add_user():
         print("User added successfully!")
 
 def add_book():
-       title = input("Enter book title: ")
-       author = input("Enter book author: ")
-       genre = input("Enter book genre: ")
-       total_pages = int(input("Enter total pages: "))
-       book = Book(title=title, author=author, genre=genre, total_pages=total_pages)
-       session.add(book)
-       session.commit()
-       print("Book added successfully!")
+    title = input("Enter book title: ")
+    author = input("Enter book author: ")
+    genre = input("Enter book genre: ")
+    total_pages = input("Enter total pages: ")
+    try:
+        total_pages = int(total_pages)
+        book = Book(title=title, author=author, genre=genre, total_pages=total_pages)
+        session.add(book)
+        session.commit()
+        print("Book added successfully!")
+    except ValueError:
+        print("Error: Total pages must be a number!")
 
 def log_progress():
        user_id = int(input("Enter your user ID: "))
