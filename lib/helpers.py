@@ -120,6 +120,13 @@ def sort_books():
     for book in books:
         print(f"{book.title} by {book.author} | Genre: {book.genre}")
 
+def calculate_completion_percentage(book):
+    """Helper to calculate completion percentage for sorting."""
+    progress = session.query(ReadingProgress).filter_by(book_id=book.id).first()
+    if progress:
+        return (progress.pages_read / book.total_pages) * 100
+    return 0
+
 
 def exit_program():
     print("Goodbye!")
