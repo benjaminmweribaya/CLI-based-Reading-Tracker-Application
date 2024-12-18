@@ -70,7 +70,8 @@ def view_books_by_status():
        progresses = session.query(ReadingProgress).filter_by(reading_status=status).all()
        if progresses:
            for p in progresses:
-               print(f"Book ID: {p.book_id}, Pages Read: {p.pages_read}, Updated At: {p.updated_at}")
+               book = session.query(Book).filter_by(id=p.book_id).first()
+               print(f"{book.title} by {book.author} | Pages Read: {p.pages_read}/{book.total_pages}")
        else:
            print("No books found for this status.")
 
