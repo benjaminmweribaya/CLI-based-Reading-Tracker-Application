@@ -21,6 +21,15 @@ def add_book():
        session.commit()
        print("Book added successfully!")
 
+def log_progress():
+       user_id = int(input("Enter your user ID: "))
+       book_id = int(input("Enter the book ID: "))
+       pages_read = int(input("Enter pages read: "))
+       reading_status = input("Enter status (To Read/Reading/Finished): ")
+       progress = ReadingProgress(user_id=user_id, book_id=book_id, pages_read=pages_read, reading_status=reading_status)
+       session.add(progress)
+       session.commit()
+       print("Progress logged successfully!")
 
 
 def exit_program():
