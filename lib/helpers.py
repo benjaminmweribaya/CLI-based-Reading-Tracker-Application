@@ -6,10 +6,13 @@ from lib.models.reading_progress import ReadingProgress
 def add_user():
     name = input("Enter your name: ")
     email = input("Enter your email: ")
-    user = User(name=name, email=email)
-    session.add(user)
-    session.commit()
-    print("User added successfully!")
+    if session.query(User).filter_by(email=email).first():
+        print("Error: User with this email already exists!")
+    else:
+        user = User(name=name, email=email)
+        session.add(user)
+        session.commit()
+        print("User added successfully!")
 
 def add_book():
        title = input("Enter book title: ")
