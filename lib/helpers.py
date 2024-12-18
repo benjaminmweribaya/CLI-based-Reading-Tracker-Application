@@ -102,6 +102,24 @@ def search_books():
     else:
         print("No matching books found.")
 
+def sort_books():
+    """Sort books by genre, title, or completion percentage."""
+    print("Sort books by: 1) Title, 2) Genre, or 3) Completion Percentage")
+    choice = input("> ")
+    if choice == "1":
+        books = session.query(Book).order_by(Book.title).all()
+    elif choice == "2":
+        books = session.query(Book).order_by(Book.genre).all()
+    elif choice == "3":
+        books = session.query(Book).all()
+        books = sorted(books, key=lambda b: calculate_completion_percentage(b), reverse=True)
+    else:
+        print("Invalid choice!")
+        return
+
+    for book in books:
+        print(f"{book.title} by {book.author} | Genre: {book.genre}")
+
 
 def exit_program():
     print("Goodbye!")
