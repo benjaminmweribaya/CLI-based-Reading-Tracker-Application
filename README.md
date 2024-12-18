@@ -98,9 +98,9 @@ CLI-based-Reading-Tracker-Application/
 - **SQLite**: Lightweight database for data storage.
 
 ## Author
-**Benjamin Baya**  
-Email: [benjaminbaya@example.com](mailto:benjaminbaya@example.com)  
-GitHub: [BenjaminBaya](https://github.com/BenjaminBaya)  
+**Mr. Benjamin Mweri Baya**  
+Email: [b3njaminbaya@gmail.com](mailto:benjaminbaya@gmail.com)  
+GitHub: [benjaminmweribaya](https://github.com/benjaminmweribaya)  
 
 ## License
 This project is licensed under the MIT License. See the LICENSE file for details.
