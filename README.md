@@ -12,10 +12,12 @@ The Reading Tracker CLI Application is a Python-based command-line interface (CL
    - Add new books to the database.
    - Search for books by title or author.
    - Sort books by title, genre, or completion percentage.
+   - Delete books from the database.
 3. **Reading Progress Tracking**:
    - Log and update reading progress for books.
    - View books filtered by reading status (To Read, Reading, Finished).
    - Calculate percentage completion for books.
+   - Delete reading progress records.
 4. **CLI Navigation**:
    - Intuitive menu system with options for all major features.
    - Input validation to ensure user-friendly error handling.
@@ -62,6 +64,9 @@ Once the CLI is running, follow the on-screen prompts to interact with the appli
 5. Calculate percentage completion for books.
 6. Search for books by title or author.
 7. Sort books.
+8. Delete a user.
+9. Delete a book.
+10. Delete a reading progress.
 0. Exit the application.
 
 ## Project Structure
