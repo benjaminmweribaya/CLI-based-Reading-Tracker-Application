@@ -66,12 +66,15 @@ def log_progress():
         print("Error: IDs and pages must be numbers!")
 
 def view_books_by_status():
+       """View books filtered by reading status along with user information."""
        status = input("Enter status to filter (To Read/Reading/Finished): ")
        progresses = session.query(ReadingProgress).filter_by(reading_status=status).all()
        if progresses:
-           for p in progresses:
-               book = session.query(Book).filter_by(id=p.book_id).first()
-               print(f"{book.title} by {book.author} | Pages Read: {p.pages_read}/{book.total_pages}")
+           print(f"Books with status '{status}':")
+           for progress in progresses:
+               book = session.query(Book).filter_by(id=progress.book_id).first()
+               user = session.query(User).filter_by(id=progress.user_id).first()
+               print(f"- {book.title} by {book.author} | Pages Read: {progress.pages_read}/{book.total_pages} | User: {user.name} (ID: {user.id})")
        else:
            print("No books found for this status.")
 
