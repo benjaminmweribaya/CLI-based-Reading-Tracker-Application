@@ -2,7 +2,18 @@ from lib.models import session
 from lib.models.user import User
 from lib.models.book import Book
 from lib.models.reading_progress import ReadingProgress
-from lib.helpers import add_user, add_book, log_progress, view_books_by_status, calculate_percentage, search_books, sort_books, exit_program
+from lib.helpers import (add_user, 
+                         add_book, 
+                         log_progress, 
+                         view_books_by_status, 
+                         calculate_percentage, 
+                         search_books, 
+                         sort_books, 
+                         delete_user,
+                         delete_book,
+                         delete_reading_progress,
+                         exit_program
+                         )
 
 def main():
     while True:
@@ -24,6 +35,12 @@ def main():
             search_books()
         elif choice == "7":
             sort_books()
+        elif choice == "8":
+            delete_user()
+        elif choice == "9":
+            delete_book()
+        elif choice == "10":
+            delete_reading_progress()
         else:
             print("Invalid choice")
 
@@ -36,6 +53,9 @@ def menu():
     print("5. Calculate percentage completion for books")
     print("6. Search for books")
     print("7. Sort books")
+    print("8. Delete a user")
+    print("9. Delete a book")
+    print("10. Delete a reading progress")
     print("0. Exit the program")
 
 if __name__ == "__main__":

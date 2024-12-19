@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, ForeignKey, String, DateTime
 from sqlalchemy.orm import relationship
-from lib.models import Base
+from lib.models import Base, session
 from datetime import datetime
 
 class ReadingProgress(Base):
@@ -18,3 +18,17 @@ class ReadingProgress(Base):
 
     def __repr__(self):
         return f"<ReadingProgress(user_id={self.user_id}, book_id={self.book_id}, pages_read={self.pages_read}, status={self.reading_status})>"
+
+    @classmethod
+    def delete_by_id(cls, progress_id):
+        """Delete a reading progress record by its ID."""
+        try:
+           progress = session.query(cls).filter_by(id=progress_id).first()
+           if progress:
+               session.delete(progress)
+               session.commit()
+               print(f"Reading progress with ID {progress_id} deleted successfully!")
+           else:
+               print(f"No reading progress found with ID {progress_id}.")
+        except Exception as e:
+            print(f"An error occurred while deleting the reading progress: {e}")

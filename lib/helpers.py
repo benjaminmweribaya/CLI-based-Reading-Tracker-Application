@@ -130,6 +130,29 @@ def calculate_completion_percentage(book):
         return (progress.pages_read / book.total_pages) * 100
     return 0
 
+def delete_user():
+    """Delete a user by ID."""
+    try:
+        user_id = int(input("Enter the user ID to delete: "))
+        User.delete_by_id(user_id)
+    except ValueError:
+        print("Error: User ID must be a number.")
+
+def delete_book():
+    """Delete a book by ID."""
+    try:
+        book_id = int(input("Enter the book ID to delete: "))
+        Book.delete_by_id(book_id)
+    except ValueError:
+        print("Error: Book ID must be a number.")
+
+def delete_reading_progress():
+    """Delete a reading progress record by ID."""
+    try:
+        progress_id = int(input("Enter the reading progress ID to delete: "))
+        ReadingProgress.delete_by_id(progress_id)
+    except ValueError:
+        print("Error: Progress ID must be a number.")
 
 def exit_program():
     print("Goodbye!")
