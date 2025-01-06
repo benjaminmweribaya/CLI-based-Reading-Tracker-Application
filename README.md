@@ -30,7 +30,7 @@ The Reading Tracker CLI Application is a Python-based command-line interface (CL
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/benjaminmweribaya/CLI-based-Reading-Tracker-Application
    cd CLI-based-Reading-Tracker-Application
    ```
 2. Install dependencies using Pipenv:
@@ -40,6 +40,10 @@ The Reading Tracker CLI Application is a Python-based command-line interface (CL
 3. Activate the virtual environment:
    ```bash
    pipenv shell
+   ```
+4. Install the project in the virtual environment:
+   ```bash
+   pip install -e .
    ```
 
 ### Database Initialization
@@ -104,7 +108,7 @@ CLI-based-Reading-Tracker-Application/
 
 ## Author
 **Mr. Benjamin Mweri Baya**  
-Email: [b3njaminbaya@gmail.com](mailto:benjaminbaya@gmail.com)  
+Email: [b3njaminbaya@gmail.com](mailto:b3njaminbaya@gmail.com)  
 GitHub: [benjaminmweribaya](https://github.com/benjaminmweribaya)  
 
 ## License
