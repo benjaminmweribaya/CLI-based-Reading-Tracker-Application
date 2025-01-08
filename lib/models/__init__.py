@@ -8,6 +8,3 @@ Base = declarative_base()
 engine = create_engine("sqlite:///reading_tracker.db")
 Session = sessionmaker(bind=engine)
 session = Session()
-
-CONN = sqlite3.connect('company.db')
-CURSOR = CONN.cursor()

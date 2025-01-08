@@ -41,6 +41,10 @@ The Reading Tracker CLI Application is a Python-based command-line interface (CL
    ```bash
    pipenv shell
    ```
+4. Install the project in the virtual environment
+```bash
+pip install -e .
+```
 
 ### Database Initialization
 Run the following script to set up the SQLite database:
