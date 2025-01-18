@@ -6,7 +6,7 @@ from lib.models.reading_progress import ReadingProgress
 def add_user():
     name = input("Enter your name: ")
     email = input("Enter your email: ")
-    User.add(name, email)
+    User.create(name, email)
 
 def add_book():
     title = input("Enter book title: ")
