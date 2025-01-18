@@ -17,15 +17,42 @@ class Book(Base):
     
     @classmethod
     def add(cls, title, author, genre, total_pages):
-        """Add a new book."""
+        """Add a new book with validation."""
+        # Validate the title
+        if not title or title.isdigit():
+            print("Error: Book title must not be empty or just numbers!")
+            return
+
+        # Validate the author
+        if not author or author.isdigit():
+            print("Error: Author name must not be empty or just numbers!")
+            return
+
+        # Validate the genre
+        if not genre:
+            print("Error: Genre cannot be empty!")
+            return
+
+        # Validate total pages
         try:
             total_pages = int(total_pages)
-            book = cls(title=title, author=author, genre=genre, total_pages=total_pages)
-            session.add(book)
-            session.commit()
-            print("Book added successfully!")
+            if total_pages <= 0:
+                print("Error: Total pages must be a positive number!")
+                return
         except ValueError:
             print("Error: Total pages must be a number!")
+            return
+
+        # Add the book to the database
+        if session.query(cls).filter_by(title=title, author=author).first():
+            print("Error: A book with this title and author already exists!")
+            return
+
+        book = cls(title=title, author=author, genre=genre, total_pages=total_pages)
+        session.add(book)
+        session.commit()
+        print("Book added successfully!")
+
 
     @classmethod
     def search(cls, search_term):
