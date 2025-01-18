@@ -1,6 +1,8 @@
 from sqlalchemy import Column, Integer, ForeignKey, String, DateTime
 from sqlalchemy.orm import relationship
 from lib.models import Base, session
+from lib.models.user import User  
+from lib.models.book import Book
 from datetime import datetime
 
 class ReadingProgress(Base):
@@ -11,7 +13,7 @@ class ReadingProgress(Base):
     book_id = Column(Integer, ForeignKey('books.id'), nullable=False)
     pages_read = Column(Integer, default=0)
     reading_status = Column(String, nullable=False)
-    updated_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     user = relationship("User", back_populates="reading_progresses")
     book = relationship("Book", back_populates="reading_progresses")
@@ -26,14 +28,11 @@ class ReadingProgress(Base):
         user = session.query(User).filter_by(id=user_id).first()
         book = session.query(Book).filter_by(id=book_id).first()
         if not user:
-            print("Error: User does not exist!")
-            return
+            raise ValueError("Error: User does not exist!")
         if not book:
-            print("Error: Book does not exist!")
-            return
+            raise ValueError("Error: Book does not exist!")
         if pages_read > book.total_pages:
-            print("Error: Pages read cannot exceed total pages!")
-            return
+            raise ValueError("Error: Pages read cannot exceed total pages!")
 
         progress = session.query(cls).filter_by(user_id=user_id, book_id=book_id).first()
         if progress:
@@ -49,32 +48,33 @@ class ReadingProgress(Base):
     @classmethod
     def view_by_status(cls, status):
         """View books filtered by reading status."""
-        progresses = session.query(cls).filter_by(reading_status=status).all()
+        progresses = (
+            session.query(cls)
+            .join(Book)
+            .join(User)
+            .filter(cls.reading_status == status)
+            .all()
+        )
         if progresses:
             print(f"Books with status '{status}':")
             for progress in progresses:
-                book = session.query(Book).filter_by(id=progress.book_id).first()
-                user = session.query(User).filter_by(id=progress.user_id).first()
-                print(f"- {book.title} by {book.author} | Pages Read: {progress.pages_read}/{book.total_pages} | User: {user.name} (ID: {user.id})")
+                print(f"- {progress.book.title} by {progress.book.author} | Pages Read: {progress.pages_read}/{progress.book.total_pages} | User: {progress.user.name} (ID: {progress.user.id})")
         else:
             print("No books found for this status.")
 
     @classmethod
     def calculate_percentage(cls, user_id):
         """Calculate percentage completion for a user's books."""
-        try:
-            user_id = int(user_id)
-            progresses = session.query(cls).filter_by(user_id=user_id).all()
-            if not progresses:
-                print("No reading progress found for this user.")
-                return
-            for progress in progresses:
-                book = session.query(Book).filter_by(id=progress.book_id).first()
-                percentage = (progress.pages_read / book.total_pages) * 100
-                print(f"{book.title} by {book.author} | {percentage:.2f}% Completed")
-        except ValueError:
-            print("Error: User ID must be a number!")
-
+        progresses = session.query(cls).filter_by(user_id=user_id).all()
+        if not progresses:
+            print("No reading progress found for this user.")
+            return
+        for progress in progresses:
+            if progress.book.total_pages == 0:
+               print(f"{progress.book.title} by {progress.book.author} | Total pages is zero. Cannot calculate percentage.")
+               continue
+            percentage = (progress.pages_read / progress.book.total_pages) * 100
+            print(f"{progress.book.title} by {progress.book.author} | {percentage:.2f}% Completed")
 
     @classmethod
     def delete_by_id(cls, progress_id):

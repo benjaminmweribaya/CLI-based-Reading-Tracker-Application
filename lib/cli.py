@@ -2,61 +2,55 @@ from lib.models import session
 from lib.models.user import User
 from lib.models.book import Book
 from lib.models.reading_progress import ReadingProgress
-from lib.helpers import (add_user, 
-                         add_book, 
-                         log_progress, 
-                         view_books_by_status, 
-                         calculate_percentage, 
-                         search_books, 
-                         sort_books, 
-                         delete_user,
-                         delete_book,
-                         delete_reading_progress,
-                         exit_program
-                         )
+from lib.helpers import (
+    add_user, 
+    add_book, 
+    log_progress, 
+    view_books_by_status, 
+    calculate_percentage, 
+    search_books, 
+    sort_books, 
+    delete_user,
+    delete_book,
+    delete_reading_progress,
+    exit_program
+)
 
-def main():
-    while True:
-        menu()
-        choice = input("> ")
-        if choice == "0":
-            exit_program()
-        elif choice == "1":
-            add_user()
-        elif choice == "2":
-            add_book()
-        elif choice == "3":
-            log_progress()
-        elif choice == "4":
-            view_books_by_status()
-        elif choice == "5":
-            calculate_percentage()
-        elif choice == "6":
-            search_books()
-        elif choice == "7":
-            sort_books()
-        elif choice == "8":
-            delete_user()
-        elif choice == "9":
-            delete_book()
-        elif choice == "10":
-            delete_reading_progress()
-        else:
-            print("Invalid choice")
+# Menu options as a list of tuples
+MENU_OPTIONS = [
+    (0, "Exit the program", exit_program),
+    (1, "Add a new user", add_user),
+    (2, "Add a new book", add_book),
+    (3, "Log reading progress", log_progress),
+    (4, "View books by reading status", view_books_by_status),
+    (5, "Calculate percentage completion for books", calculate_percentage),
+    (6, "Search for books", search_books),
+    (7, "Sort books", sort_books),
+    (8, "Delete a user", delete_user),
+    (9, "Delete a book", delete_book),
+    (10, "Delete a reading progress", delete_reading_progress),
+]
+
+def display_menu():
+    """Display menu options."""
+    print("\nWelcome to the Reading Tracker CLI!")
+    for option, description, _ in MENU_OPTIONS:
+        print(f"{option}. {description}")
+
 
 def menu():
-    print("\nWelcome to the Reading Tracker CLI!")
-    print("1. Add a new user")
-    print("2. Add a new book")
-    print("3. Log reading progress")
-    print("4. View books by reading status")
-    print("5. Calculate percentage completion for books")
-    print("6. Search for books")
-    print("7. Sort books")
-    print("8. Delete a user")
-    print("9. Delete a book")
-    print("10. Delete a reading progress")
-    print("0. Exit the program")
+    while True:
+        display_menu()
+        try:
+            choice = int(input("> "))
+            # Use a dictionary to map choices to functions
+            menu_dict = {option: action for option, _, action in MENU_OPTIONS}
+            if choice in menu_dict:
+                menu_dict[choice]()  # Call the corresponding function
+            else:
+                print("Invalid choice. Please select a valid option.")
+        except ValueError:
+            print("Invalid input. Please enter a number.")
 
 if __name__ == "__main__":
-    main()
+    menu()
