@@ -61,6 +61,8 @@ python lib/cli.py
 
 ## Usage
 Once the CLI is running, follow the on-screen prompts to interact with the application. The main menu provides the following options:
+
+0. Exit the application.
 1. Add a new user.
 2. Add a new book.
 3. Log or update reading progress.
@@ -71,7 +73,6 @@ Once the CLI is running, follow the on-screen prompts to interact with the appli
 8. Delete a user.
 9. Delete a book.
 10. Delete a reading progress.
-0. Exit the application.
 
 ## Project Structure
 ```
