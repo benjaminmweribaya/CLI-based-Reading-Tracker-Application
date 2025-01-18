@@ -14,6 +14,17 @@ class User(Base):
         return f"<User(name={self.name}, email={self.email})>"
     
     @classmethod
+    def add(cls, name, email):
+        """Add a new user."""
+        if session.query(cls).filter_by(email=email).first():
+            print("Error: User with this email already exists!")
+        else:
+            user = cls(name=name, email=email)
+            session.add(user)
+            session.commit()
+            print("User added successfully!")
+    
+    @classmethod
     def delete_by_id(cls, user_id):
         """Delete a user by their ID."""
         try:

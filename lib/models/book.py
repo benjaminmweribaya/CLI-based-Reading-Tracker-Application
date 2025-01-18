@@ -16,6 +16,43 @@ class Book(Base):
         return f"<Book(title={self.title}, author={self.author}, genre={self.genre})>"
     
     @classmethod
+    def add(cls, title, author, genre, total_pages):
+        """Add a new book."""
+        try:
+            total_pages = int(total_pages)
+            book = cls(title=title, author=author, genre=genre, total_pages=total_pages)
+            session.add(book)
+            session.commit()
+            print("Book added successfully!")
+        except ValueError:
+            print("Error: Total pages must be a number!")
+
+    @classmethod
+    def search(cls, search_term):
+        """Search for books by title or author."""
+        books = session.query(cls).all()
+        results = [book for book in books if search_term in book.title.lower() or search_term in book.author.lower()]
+        if results:
+            for book in results:
+                print(f"{book.title} by {book.author} | Genre: {book.genre}")
+        else:
+            print("No matching books found!")
+
+    @classmethod
+    def sort(cls, choice):
+        """Sort books by title, genre, or completion percentage."""
+        if choice == "1":
+            books = session.query(cls).order_by(cls.title).all()
+        elif choice == "2":
+            books = session.query(cls).order_by(cls.genre).all()
+        else:
+            print("Invalid choice!")
+            return
+
+        for book in books:
+            print(f"{book.title} by {book.author} | Genre: {book.genre}")
+    
+    @classmethod
     def delete_by_id(cls, book_id):
         """Delete a book by its ID."""
         try:

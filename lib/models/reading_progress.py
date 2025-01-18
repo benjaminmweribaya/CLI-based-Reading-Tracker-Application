@@ -18,6 +18,63 @@ class ReadingProgress(Base):
 
     def __repr__(self):
         return f"<ReadingProgress(user_id={self.user_id}, book_id={self.book_id}, pages_read={self.pages_read}, status={self.reading_status})>"
+    
+
+    @classmethod
+    def log(cls, user_id, book_id, pages_read, reading_status):
+        """Log or update reading progress."""
+        user = session.query(User).filter_by(id=user_id).first()
+        book = session.query(Book).filter_by(id=book_id).first()
+        if not user:
+            print("Error: User does not exist!")
+            return
+        if not book:
+            print("Error: Book does not exist!")
+            return
+        if pages_read > book.total_pages:
+            print("Error: Pages read cannot exceed total pages!")
+            return
+
+        progress = session.query(cls).filter_by(user_id=user_id, book_id=book_id).first()
+        if progress:
+            progress.pages_read = pages_read
+            progress.reading_status = reading_status
+            print("Progress updated successfully!")
+        else:
+            progress = cls(user_id=user_id, book_id=book_id, pages_read=pages_read, reading_status=reading_status)
+            session.add(progress)
+            print("Progress logged successfully!")
+        session.commit()
+
+    @classmethod
+    def view_by_status(cls, status):
+        """View books filtered by reading status."""
+        progresses = session.query(cls).filter_by(reading_status=status).all()
+        if progresses:
+            print(f"Books with status '{status}':")
+            for progress in progresses:
+                book = session.query(Book).filter_by(id=progress.book_id).first()
+                user = session.query(User).filter_by(id=progress.user_id).first()
+                print(f"- {book.title} by {book.author} | Pages Read: {progress.pages_read}/{book.total_pages} | User: {user.name} (ID: {user.id})")
+        else:
+            print("No books found for this status.")
+
+    @classmethod
+    def calculate_percentage(cls, user_id):
+        """Calculate percentage completion for a user's books."""
+        try:
+            user_id = int(user_id)
+            progresses = session.query(cls).filter_by(user_id=user_id).all()
+            if not progresses:
+                print("No reading progress found for this user.")
+                return
+            for progress in progresses:
+                book = session.query(Book).filter_by(id=progress.book_id).first()
+                percentage = (progress.pages_read / book.total_pages) * 100
+                print(f"{book.title} by {book.author} | {percentage:.2f}% Completed")
+        except ValueError:
+            print("Error: User ID must be a number!")
+
 
     @classmethod
     def delete_by_id(cls, progress_id):
